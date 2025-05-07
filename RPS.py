@@ -80,9 +80,12 @@ def player(opponent_last_move, opponent_moves=[]):
               "SS": 0, 
             }]
             
-        # Counter Abbey's expected move
+    
         my_next_move = counter_moves[abbey_prediction]
         return my_next_move
+
+
+
 
     if(len(set(which_bot)) == 1 and opponent_moves[-5:] == ['P', 'R', 'R', 'R', 'R']):
         which_bot[2] = True
