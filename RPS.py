@@ -1,10 +1,10 @@
 #lets Keep Track of what we played before in an array
-my_moves = []
+player_move = []
 # Starting  with Scissors
-starting_move = my_next_move = 'S'
+intial_move = my_next_move = 'S'
 # Keep track of which bot we're playing against
 which_bot = [False, False, False, False]
-# This is the magic counter move for each situation
+
 counter_moves = {'P': 'R', 'R': 'S', 'S': 'P'}
 quincy_position = -1
 my_patterns = [{
@@ -20,19 +20,18 @@ my_patterns = [{
 }]
 
 def player(opponent_last_move, opponent_moves=[]):
-    global my_moves, my_next_move, which_bot, counter_moves, quincy_position, my_patterns
+    global player_move, my_next_move, which_bot, counter_moves, quincy_position, my_patterns
     
   
     opponent_moves.append(opponent_last_move)
-    my_moves.append(my_next_move)
-    
-    # Check if playing against Quincy
+    player_move.append(my_next_move)
+
     if(len(set(which_bot)) == 1 and opponent_moves[-5:] == ['R', 'P', 'P', 'S', 'R']):
         which_bot[0] = True
         
     # Strategy for Quincy
     if(which_bot[0]):
-        # Reset after each match
+     
         if(len(opponent_moves) % 1000 == 0):
             which_bot = [False, False, False, False]
             opponent_moves.clear()
@@ -46,7 +45,7 @@ def player(opponent_last_move, opponent_moves=[]):
     # Strategy for Abbey
     if(which_bot[1]): 
     
-        last_two_moves = ''.join(my_moves[-2:])
+        last_two_moves = ''.join(player_move[-2:])
         if(len(last_two_moves) == 2):
             my_patterns[0][last_two_moves] += 1
             
@@ -110,12 +109,12 @@ def player(opponent_last_move, opponent_moves=[]):
             opponent_moves.clear()
 
    
-        last_ten = my_moves[-10:]
+        last_ten = player_move[-10:]
         most_common = max(set(last_ten), key=last_ten.count)
         
     
         my_next_move = counter_moves[most_common]
         return my_next_move
 
-    my_next_move = starting_move
+    my_next_move = intial_move
     return my_next_move
